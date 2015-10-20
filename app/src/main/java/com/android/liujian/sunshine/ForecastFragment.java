@@ -1,8 +1,12 @@
 package com.android.liujian.sunshine;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -12,8 +16,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,22 +61,24 @@ public class ForecastFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         mForecastListView = (ListView)rootView.findViewById(R.id.forecast_weather_list);
+        mForecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String forecast = mWeatherListAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, forecast);
 
-        String[] forecastWeatherArray = new String[] {
-                "Sunshine - Big sun shine - 28/20",
-                "Sunshine - Big sun shine - 28/20",
-                "Sunshine - Big sun shine - 28/20",
-                "Sunshine - Big sun shine - 28/20",
-                "Sunshine - Big sun shine - 28/20",
-                "Sunshine - Big sun shine - 28/20",
-                "Sunshine - Big sun shine - 28/20",
-        };
+                startActivity(intent);
 
-        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(forecastWeatherArray));
+            }
+        });
+
+
         mWeatherListAdapter = new ArrayAdapter<>(getActivity(),
                 R.layout.list_item_forcast,
                 R.id.list_item_forecast_textview,
-                arrayList);
+                new ArrayList<String>());
+
         mForecastListView.setAdapter(mWeatherListAdapter);
 
         return rootView;
@@ -87,25 +96,50 @@ public class ForecastFragment extends Fragment{
         int id = item.getItemId();
 
         if(id == R.id.forecast_refresh){
-            FetchWeatherTask task = new FetchWeatherTask();
-            task.execute("524901");
+            updateWeather();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Get the location from sharedPreferences and update weather information
+     */
+    public void updateWeather(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        FetchWeatherTask task = new FetchWeatherTask();
+        task.execute(location);
+    }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
 
     private class FetchWeatherTask extends AsyncTask<String, Void, String>{
 
         private String getReadableDataString(Long time){
-            SimpleDateFormat shortedDateFormat = new SimpleDateFormat("EEE MMM dd");
+            SimpleDateFormat shortedDateFormat = new SimpleDateFormat("E, MMM d");
             return shortedDateFormat.format(time);
         }
 
 
         private String formatHighLows(double high, double low){
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String unitType = sharedPreferences.getString(getString(R.string.pref_units_key),
+                    getString(R.string.pref_units_metric));
+
+            if(unitType.equals(getString(R.string.pref_units_imperial))){
+                high = (high * 1.8) + 32;
+                low = (low * 1.8) + 32;
+            }else if(!unitType.equals(getString(R.string.pref_units_metric))){
+                Log.d(LOG_TAG, "Unit type not found " + unitType);
+            }
+
             return String.valueOf(Math.round(high)) + "/" + String.valueOf(Math.round(low));
         }
 
