@@ -44,24 +44,28 @@ import java.util.List;
 public class ForecastFragment extends Fragment{
     private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
+    public ForecastFragment(){
+
+    }
+
     public class BuildConfig{
         public static final String OPEN_WEATHER_APPID = "8f9aa35c830c4bb0ca1b56b180c54bea";
     }
 
-    private ListView mForecastListView;
     private ArrayAdapter<String> mWeatherListAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        mForecastListView = (ListView)rootView.findViewById(R.id.forecast_weather_list);
-        mForecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView forecastListView = (ListView) rootView.findViewById(R.id.forecast_weather_list);
+        forecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String forecast = mWeatherListAdapter.getItem(position);
@@ -79,7 +83,7 @@ public class ForecastFragment extends Fragment{
                 R.id.list_item_forecast_textview,
                 new ArrayList<String>());
 
-        mForecastListView.setAdapter(mWeatherListAdapter);
+        forecastListView.setAdapter(mWeatherListAdapter);
 
         return rootView;
     }
@@ -123,7 +127,7 @@ public class ForecastFragment extends Fragment{
     private class FetchWeatherTask extends AsyncTask<String, Void, String>{
 
         private String getReadableDataString(Long time){
-            SimpleDateFormat shortedDateFormat = new SimpleDateFormat("E, MMM d");
+            SimpleDateFormat shortedDateFormat = new SimpleDateFormat("EEE MMM dd");
             return shortedDateFormat.format(time);
         }
 
@@ -211,7 +215,7 @@ public class ForecastFragment extends Fragment{
 
 
             final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
-            final String QUERY_PARAM = "id";
+            final String QUERY_PARAM = "q";
             final String UNIT_PARAM = "units";
             final String DAYS_PARAM = "cnt";
             final String APPID_PARAM = "appid";
@@ -254,7 +258,6 @@ public class ForecastFragment extends Fragment{
 
             } catch (IOException e){
                 e.printStackTrace();
-                Log.e(LOG_TAG, e.getMessage());
             }finally {
                 if(reader != null){
                     try {

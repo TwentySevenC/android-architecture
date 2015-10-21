@@ -1,13 +1,12 @@
 package com.android.liujian.sunshine;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,7 +62,7 @@ public class DetailActivity extends AppCompatActivity {
      */
     public static class DetailFragment extends Fragment{
         private static final String LOG_TAG = DetailFragment.class.getSimpleName();
-        private static final String SHARE_HASHTAG = " #Sunshine App";
+        private static final String FORECAST_SHARE_HASHTAG = " #Sunshine App";
 
         private String mForecastStr;
         private ShareActionProvider mShareActionProvider;
@@ -110,7 +109,7 @@ public class DetailActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-            intent.putExtra(Intent.EXTRA_TEXT, mForecastStr + SHARE_HASHTAG);
+            intent.putExtra(Intent.EXTRA_TEXT, mForecastStr + FORECAST_SHARE_HASHTAG);
             return intent;
         }
     }
