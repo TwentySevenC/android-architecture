@@ -41,6 +41,9 @@
     </array>
 
 
+    <!-- Provider -->
+    <string name="authorities">com.android.liujian.sunshine</string>
+
 
 
 </resources>

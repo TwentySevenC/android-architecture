@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.android.liujian.sunshine.data.WeatherContract;
+import com.android.liujian.sunshine.utils.AppConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,9 +39,6 @@ public class FetchWeatherTask  extends AsyncTask<String, Void, Void> {
 
     private Context mContext;
 
-    public static class BuildConfig {
-        public static final String OPEN_WEATHER_APPID = "8f9aa35c830c4bb0ca1b56b180c54bea";
-    }
 
     public FetchWeatherTask(Context context) {
         mContext = context;
@@ -52,20 +50,7 @@ public class FetchWeatherTask  extends AsyncTask<String, Void, Void> {
     }
 
 
-    private String formatHighLows(double high, double low){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String unitType = sharedPreferences.getString(mContext.getString(R.string.pref_units_key),
-                mContext.getString(R.string.pref_units_metric));
-
-        if(unitType.equals(mContext.getString(R.string.pref_units_imperial))){
-            high = (high * 1.8) + 32;
-            low = (low * 1.8) + 32;
-        }else if(!unitType.equals(mContext.getString(R.string.pref_units_metric))){
-            Log.d(LOG_TAG, "Unit type not found " + unitType);
-        }
-
-        return String.valueOf(Math.round(high)) + "/" + String.valueOf(Math.round(low));
-    }*/
+    */
 
     /**
      * Insert a location into database
@@ -85,8 +70,12 @@ public class FetchWeatherTask  extends AsyncTask<String, Void, Void> {
                 new String[]{locationSetting},
                 null);
 
+        if(cursor == null ){
+            return 0;
+        }
+
         if (cursor.moveToFirst()) {
-            /** The city is already in the database*/
+            /** The city is already in the database */
             int columnIndex = cursor.getColumnIndex(WeatherContract.LocationEntry._ID);
             locationId = cursor.getLong(columnIndex);
         } else {
@@ -101,7 +90,7 @@ public class FetchWeatherTask  extends AsyncTask<String, Void, Void> {
             locationId = ContentUris.parseId(uri);
         }
 
-        cursor.close();
+        if(cursor != null ) cursor.close();
         return locationId;
     }
 
@@ -241,7 +230,7 @@ public class FetchWeatherTask  extends AsyncTask<String, Void, Void> {
 
         HttpURLConnection forecastConnection = null;
         BufferedReader reader = null;
-        String forecastWeatherString = null;
+        String forecastWeatherString ;
 
 
         final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
@@ -256,11 +245,13 @@ public class FetchWeatherTask  extends AsyncTask<String, Void, Void> {
                     .appendQueryParameter(QUERY_PARAM, locationSetting)
                     .appendQueryParameter(UNIT_PARAM, units)
                     .appendQueryParameter(DAYS_PARAM, String.valueOf(days))
-                    .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_APPID)
+                    .appendQueryParameter(APPID_PARAM, AppConfig.OPEN_WEATHER_APPID)
                     .build();
 
+            Log.d(LOG_TAG, uri.toString());
 
             URL url = new URL(uri.toString());
+
             forecastConnection = (HttpURLConnection) url.openConnection();
             forecastConnection.setRequestMethod("GET");
             forecastConnection.connect();
@@ -284,6 +275,7 @@ public class FetchWeatherTask  extends AsyncTask<String, Void, Void> {
             }
 
             forecastWeatherString = buffer.toString();
+
             getWeatherDataFromJson(forecastWeatherString, locationSetting);
 
         } catch (IOException e) {

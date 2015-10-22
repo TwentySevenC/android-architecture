@@ -2,6 +2,9 @@ package com.android.liujian.sunshine;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.media.session.PlaybackState;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.android.liujian.sunshine.data.WeatherContract;
+import com.android.liujian.sunshine.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -29,7 +35,7 @@ public class ForecastFragment extends Fragment{
     }
 
 
-    private ArrayAdapter<String> mWeatherListAdapter;
+    private ForecastAdapter mWeatherListAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,20 +50,23 @@ public class ForecastFragment extends Fragment{
         forecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String forecast = mWeatherListAdapter.getItem(position);
+                Cursor cursor = (Cursor)mWeatherListAdapter.getItem(position);
+                String forecast = Utility.convertCursorRowToUxFormat(getContext(), cursor);
                 Intent intent = new Intent(getActivity(), DetailActivity.class)
                         .putExtra(Intent.EXTRA_TEXT, forecast);
 
                 startActivity(intent);
-
             }
         });
 
+        String locationSetting = Utility.getPreferenceLocation(getContext());
 
-        mWeatherListAdapter = new ArrayAdapter<>(getActivity(),
-                R.layout.list_item_forcast,
-                R.id.list_item_forecast_textview,
-                new ArrayList<String>());
+        String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC ";
+        Uri weatherUri = WeatherContract.WeatherEntry.buildweatherLocationWithStartDate(locationSetting, System.currentTimeMillis());
+
+        Cursor cursor = getContext().getContentResolver().query(weatherUri, null, null, null, sortOrder);
+
+        mWeatherListAdapter = new ForecastAdapter(getContext(), cursor, 0);
 
         forecastListView.setAdapter(mWeatherListAdapter);
 
@@ -87,8 +96,7 @@ public class ForecastFragment extends Fragment{
      * Get the location from sharedPreferences and update weather information
      */
     public void updateWeather(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String location = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        String location = Utility.getPreferenceLocation(getContext());
         FetchWeatherTask task = new FetchWeatherTask(getContext());
         task.execute(location);
     }
