@@ -68,10 +68,16 @@ public class WeatherContract {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_WEATHER).build();
 
+        /**
+         * MIME type has the format: type/subType
+         * Custom MIME type strings, also called "vendor-specific" MIME types, have more complex type
+         * and subtype values. The type value is always "vnd.android.cursor.dir" for multiple rows
+         * "vnd.android.cursor.item" for a single row
+         */
         public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_WEATHER;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + "vnd." +CONTENT_AUTHORITY + "." + PATH_WEATHER;
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_WEATHER;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + "vnd." + CONTENT_AUTHORITY + "." + PATH_WEATHER;
 
 
         /** Table name*/
@@ -92,7 +98,7 @@ public class WeatherContract {
         public static final String COLUMN_MIN_TEMP = "min";
         public static final String COLUMN_MAX_TEMP = "max";
 
-        /** Pressure is stored as long */
+        /** Pressure is stored as float */
         public static final String COLUMN_PRESSURE = "pressure";
 
         /** Humidity is stored as a float representing percentage (pa)*/
