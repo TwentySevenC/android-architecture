@@ -1,13 +1,13 @@
 package com.android.liujian.sunshine;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,20 +15,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.android.liujian.sunshine.data.WeatherContract;
 import com.android.liujian.sunshine.utils.Utility;
 
-import java.util.ArrayList;
-
 /**
  * Created by liujian on 15/10/19.
  * ForecastFragment
  */
-public class ForecastFragment extends Fragment{
+public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
     private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
+    private static final int LOADER_ID = 0;
 
     public ForecastFragment(){
 
@@ -59,16 +57,19 @@ public class ForecastFragment extends Fragment{
             }
         });
 
-        String locationSetting = Utility.getPreferenceLocation(getContext());
+        /*String locationSetting = Utility.getPreferenceLocation(getContext());
 
         String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC ";
         Uri weatherUri = WeatherContract.WeatherEntry.buildweatherLocationWithStartDate(locationSetting, System.currentTimeMillis());
 
-        Cursor cursor = getContext().getContentResolver().query(weatherUri, null, null, null, sortOrder);
+        Cursor cursor = getContext().getContentResolver().query(weatherUri, null, null, null, sortOrder);*/
 
-        mWeatherListAdapter = new ForecastAdapter(getContext(), cursor, 0);
+
+        mWeatherListAdapter = new ForecastAdapter(getContext(), null, 0);
 
         forecastListView.setAdapter(mWeatherListAdapter);
+
+        getLoaderManager().initLoader(LOADER_ID,null,this);
 
         return rootView;
     }
@@ -99,6 +100,7 @@ public class ForecastFragment extends Fragment{
         String location = Utility.getPreferenceLocation(getContext());
         FetchWeatherTask task = new FetchWeatherTask(getContext());
         task.execute(location);
+        mWeatherListAdapter.notifyDataSetChanged();
     }
 
 
@@ -109,4 +111,24 @@ public class ForecastFragment extends Fragment{
     }
 
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String locationSetting = Utility.getPreferenceLocation(getContext());
+
+        String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC ";
+        Uri weatherUri = WeatherContract.WeatherEntry.buildweatherLocationWithStartDate(locationSetting, System.currentTimeMillis());
+
+
+        return new CursorLoader(getContext(), weatherUri, null, null, null, sortOrder);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mWeatherListAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mWeatherListAdapter.swapCursor(null);
+    }
 }
