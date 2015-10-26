@@ -183,6 +183,7 @@ public class FetchWeatherTask  extends AsyncTask<String, Void, Void> {
                 description = weatherObject.getString(OWM_MAIN);
                 weatherId = weatherObject.getInt(OWM_WEATHER_ID);
 
+
                 ContentValues values = new ContentValues();
 
                 values.put(WeatherContract.WeatherEntry.COLUMN_DATE, dateTime);

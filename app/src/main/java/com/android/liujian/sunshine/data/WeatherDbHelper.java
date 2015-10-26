@@ -26,13 +26,13 @@ public class WeatherDbHelper extends SQLiteOpenHelper{
 
                 WeatherContract.WeatherEntry.COLUMN_LOC_KEY + " INTEGER NOT NULL, " +
                 WeatherContract.WeatherEntry.COLUMN_DATE + " INTEGER NOT NULL, " +
+                WeatherContract.WeatherEntry.COLUMN_WEATHER_ID + " INTEGER NOT NULL, " +
                 WeatherContract.WeatherEntry.COLUMN_SHORT_DESC + " TEXT NOT NULL, " +
                 WeatherContract.WeatherEntry.COLUMN_MAX_TEMP + " REAL NOT NULL, " +
                 WeatherContract.WeatherEntry.COLUMN_MIN_TEMP + " REAL NOT NULL, " +
                 WeatherContract.WeatherEntry.COLUMN_DEGREES + " REAL NOT NULL, " +
                 WeatherContract.WeatherEntry.COLUMN_HUMIDITY + " REAL NOT NULL, " +
                 WeatherContract.WeatherEntry.COLUMN_PRESSURE + " REAL NOT NULL, " +
-                WeatherContract.WeatherEntry.COLUMN_WEATHER_ID + " INTEGER NOT NULL, " +
                 WeatherContract.WeatherEntry.COLUMN_WIND_SPEED + " REAL NOT NULL, " +
 
                 "FOREIGN KEY (" + WeatherContract.WeatherEntry.COLUMN_LOC_KEY + ") REFERENCES " +

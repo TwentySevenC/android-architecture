@@ -26,10 +26,21 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         if(savedInstanceState == null){
-            FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction()
-                    .add(R.id.fragment_container, new DetailFragment())
-                    .commit();
+
+            Intent intent = getIntent();
+            if(null != intent){
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(DetailFragment.DETAIL_URI, intent.getData());
+
+                DetailFragment df = new DetailFragment();
+                df.setArguments(bundle);
+
+                FragmentManager fm = getSupportFragmentManager();
+                fm.beginTransaction()
+                        .add(R.id.weather_detail_container, df)
+                                .commit();
+            }
+
         }
     }
 
@@ -55,65 +66,6 @@ public class DetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    /**
-     * Detail weather information fragment
-     */
-    public static class DetailFragment extends Fragment{
-        private static final String LOG_TAG = DetailFragment.class.getSimpleName();
-        private static final String FORECAST_SHARE_HASHTAG = " #Sunshine App";
-
-        private String mForecastStr;
-        private ShareActionProvider mShareActionProvider;
-
-        public DetailFragment(){
-            setHasOptionsMenu(true);
-        }
-
-
-        @Override
-        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            inflater.inflate(R.menu.fragment_detail, menu);
-
-            MenuItem shareItem = menu.findItem(R.id.action_share);
-            mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
-
-            if(mShareActionProvider != null){
-                mShareActionProvider.setShareIntent(createShareForecastIntent());
-            }else{
-                Log.d(LOG_TAG, "ShareActionProvider is null.");
-            }
-
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            Intent intent = getActivity().getIntent();
-            View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-
-            if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
-                mForecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
-                ((TextView)rootView.findViewById(R.id.detail_text))
-                        .setText(mForecastStr);
-            }
-            return rootView;
-        }
-
-
-        /**
-         * Create share forecast intent
-         */
-        private Intent createShareForecastIntent(){
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-            intent.putExtra(Intent.EXTRA_TEXT, mForecastStr + FORECAST_SHARE_HASHTAG);
-            return intent;
-        }
-    }
-
 
 
 }
