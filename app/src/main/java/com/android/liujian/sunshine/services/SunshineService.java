@@ -1,6 +1,7 @@
 package com.android.liujian.sunshine.services;
 
 import android.app.IntentService;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -44,7 +45,7 @@ public class SunshineService extends IntentService {
         String locationSetting = intent.getStringExtra(LOCATION_QUERY_KEY);
 
         String units = "metric";
-        int days = 10;
+        int days = 14;
 
         HttpURLConnection forecastConnection = null;
         BufferedReader reader = null;
@@ -270,6 +271,20 @@ public class SunshineService extends IntentService {
             e.printStackTrace();
         }
 
+    }
+
+
+    /**
+     * An alarm receiver to trigger a service to update weather information
+     */
+    public static class AlarmReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent serviceIntent = new Intent(context, SunshineService.class);
+            serviceIntent.putExtra(SunshineService.LOCATION_QUERY_KEY,
+                    intent.getStringExtra(SunshineService.LOCATION_QUERY_KEY));
+            context.startService(serviceIntent);
+        }
     }
 
 

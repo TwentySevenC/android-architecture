@@ -1,5 +1,8 @@
 package com.android.liujian.sunshine;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -171,14 +174,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
      * Get the location from sharedPreferences and update weather information
      */
     public void updateWeather(){
-        String location = Utility.getPreferenceLocation(getContext());
-/*        FetchWeatherTask task = new FetchWeatherTask(getContext());
-        task.execute(location);*/
+        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
+        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_KEY, mLocationSetting);
 
-        Intent intent = new Intent(getActivity(), SunshineService.class)
-                .putExtra(SunshineService.LOCATION_QUERY_KEY, location);
+        PendingIntent pi = PendingIntent.getBroadcast(getContext(), 0, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager = (AlarmManager)getContext().getSystemService(Context.ALARM_SERVICE);
 
-        getActivity().startService(intent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pi);
     }
 
 
