@@ -19,12 +19,14 @@
                 android:id="@+id/detail_day_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
                 android:text="TODAY"/>
 
             <TextView
                 android:id="@+id/detail_date_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
                 android:text="OCT 24"/>
         </LinearLayout>
 
@@ -38,12 +40,14 @@
                 android:id="@+id/detail_temp_high_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
                 android:text="21"/>
 
             <TextView
                 android:id="@+id/detail_temp_low_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
                 android:text="8"/>
 
             <TextView
@@ -56,12 +60,14 @@
                 android:id="@+id/detail_wind_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
                 android:text="WIND: 6km/h NW"/>
 
             <TextView
                 android:id="@+id/detail_pressure_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
                 android:text="PRESSURE: 1014hPa"/>
 
         </LinearLayout>
@@ -82,6 +88,7 @@
                 android:id="@+id/detail_forecast_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
                 android:text="CLEAR"/>
 
         </LinearLayout>
