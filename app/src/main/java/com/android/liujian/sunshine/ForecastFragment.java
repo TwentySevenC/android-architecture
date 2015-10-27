@@ -1,5 +1,6 @@
 package com.android.liujian.sunshine;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.liujian.sunshine.data.WeatherContract;
+import com.android.liujian.sunshine.services.SunshineService;
 import com.android.liujian.sunshine.utils.Utility;
 
 /**
@@ -171,9 +172,13 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
      */
     public void updateWeather(){
         String location = Utility.getPreferenceLocation(getContext());
-        FetchWeatherTask task = new FetchWeatherTask(getContext());
-        task.execute(location);
-//        mWeatherListAdapter.notifyDataSetChanged();
+/*        FetchWeatherTask task = new FetchWeatherTask(getContext());
+        task.execute(location);*/
+
+        Intent intent = new Intent(getActivity(), SunshineService.class)
+                .putExtra(SunshineService.LOCATION_QUERY_KEY, location);
+
+        getActivity().startService(intent);
     }
 
 

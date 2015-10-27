@@ -3,10 +3,11 @@
     package="com.android.liujian.sunshine" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <permission
         android:name="com.android.liujian.sunshine.WEATHER_CONTENT"
-        android:protectionLevel="dangerous"
-        android:label="@string/provider_label"/>
+        android:label="@string/provider_label"
+        android:protectionLevel="dangerous" />
 
     <application
         android:allowBackup="true"
@@ -24,28 +25,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity"
-            android:parentActivityName=".MainActivity">
+        <activity
+            android:name=".DetailActivity"
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.liujian.sunshine.MainActivity"/>
+                android:value="com.android.liujian.sunshine.MainActivity" />
         </activity>
-
-        <activity android:name=".SettingActivity"
+        <activity
+            android:name=".SettingActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/SettingsTheme">
+            android:theme="@style/SettingsTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.liujian.sunshine.MainActivity"/>
+                android:value="com.android.liujian.sunshine.MainActivity" />
         </activity>
 
         <provider
-            android:authorities="com.android.liujian.sunshine"
             android:name=".data.WeatherProvider"
+            android:authorities="com.android.liujian.sunshine"
             android:exported="true"
             android:permission="com.android.liujian.sunshine.WEATHER_CONTENT"
-            android:syncable="true"/>
+            android:syncable="true" />
 
+        <service
+            android:name=".services.SunshineService"
+            android:exported="false" >
+        </service>
 
     </application>
 
