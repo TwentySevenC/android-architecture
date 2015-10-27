@@ -73,4 +73,8 @@
     <string name="tomorrow">Tomorrow</string>
 
 
+    <!-- Authenticator params -->
+    <string name="content_authority">com.android.liujian.sunshine</string>
+
+
 </resources>

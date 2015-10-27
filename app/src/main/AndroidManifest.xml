@@ -44,7 +44,7 @@
         <provider
             android:name=".data.WeatherProvider"
             android:authorities="com.android.liujian.sunshine"
-            android:exported="true"
+            android:exported="false"
             android:permission="com.android.liujian.sunshine.WEATHER_CONTENT"
             android:syncable="true" />
 
@@ -54,6 +54,14 @@
         </service>
 
         <receiver android:name=".services.SunshineService$AlarmReceiver"/>
+
+        <service android:name=".sync.SunshineAuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator"
+                       android:resource="@xml/authenticator"/>
+        </service>
 
     </application>
 
