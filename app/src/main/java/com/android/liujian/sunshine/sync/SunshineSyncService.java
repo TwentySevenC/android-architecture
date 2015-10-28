@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
  * Created by liujian on 15/10/27.
  *
  * Define a Service that returns an IBinder for the
- * sync adapter class, allowfing the sync adapter framework to
+ * sync adapter class, allowing the sync adapter framework to
  * call onPerformSync().
  */
 public class SunshineSyncService extends Service{

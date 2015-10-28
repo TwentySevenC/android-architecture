@@ -28,18 +28,6 @@
     <!-- Label for the units preferences-->
     <string name="pref_units_label">Temperature Units</string>
 
-    <!-- Temperature Units entry value-->
-    <array name="pref_units_entry_value">
-        <item >metric</item>
-        <item >imperial</item>
-    </array>
-
-    <!-- Temperature Units entries-->
-    <array name="pref_units_entries">
-        <item >Metric</item>
-        <item >Imperial</item>
-    </array>
-
 
     <!-- Date format [CHAR LIMIT=NONE] -->
     <string name="format_full_friendly_date"><xliff:g id="month">%1$s</xliff:g>, <xliff:g id="day">%2$s</xliff:g></string>
@@ -75,6 +63,7 @@
 
     <!-- Authenticator params -->
     <string name="content_authority">com.android.liujian.sunshine</string>
+    <string name="sync_account_type">sunshine.liujian.android</string>
 
 
 </resources>
