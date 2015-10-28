@@ -22,6 +22,7 @@ public class SettingActivity extends PreferenceActivity
 
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
+
     }
 
 

@@ -27,6 +27,13 @@ public class Utility {
                 context.getString(R.string.pref_location_default));
     }
 
+    public static boolean getPreferenceNotification(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return sharedPreferences.getBoolean(context.getString(R.string.pref_notification_key),
+                Boolean.valueOf(context.getString(R.string.pref_notification_default)));
+    }
+
 
     public static boolean isMetric(Context context){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -63,18 +70,6 @@ public class Utility {
     }
 
 
-    public static String convertCursorRowToUxFormat(Context context, Cursor cursor){
-
-        double high = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
-        double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
-
-        String highLows = formatHighLows(context, high, low);
-
-        long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
-        String desc = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
-
-        return Utility.formatDate(date) + " - " + desc + " - " + highLows ;
-    }
 
 
 

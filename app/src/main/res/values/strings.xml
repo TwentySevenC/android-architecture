@@ -14,7 +14,7 @@
     <!-- Key name for storing location in sharePreferences -->
     <string name="pref_location_key" translatable="false">location</string>
 
-    <!-- Default postal code for location preference -->
+    <!-- Default postal code for location preference  1795565-->
     <string name="pref_location_default" translatable="false">524901</string>
 
     <!-- Key name for storing temperature units in sharedPreferences-->
@@ -28,6 +28,19 @@
     <!-- Label for the units preferences-->
     <string name="pref_units_label">Temperature Units</string>
 
+    <!-- Label for notification preferences -->
+    <string name="pref_notification_label">Notification</string>
+    <!-- Key name for storing notification flag -->
+    <string name="pref_notification_key">notification</string>
+    <string name="pref_notification_default">true</string>
+
+    <!-- Notification checkbox preferences state -->
+    <string name="pref_notification_on">On</string>
+    <string name="pref_notification_off">Off</string>
+
+    <!-- Last notify weather data time key-->
+    <string name="pref_notification_last_notify">last_notify</string>
+
 
     <!-- Date format [CHAR LIMIT=NONE] -->
     <string name="format_full_friendly_date"><xliff:g id="month">%1$s</xliff:g>, <xliff:g id="day">%2$s</xliff:g></string>
@@ -36,7 +49,7 @@
     <!-- Temperature format [CHAR LIMIT=5 -->
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
 
-    <!-- Windspeed formats -->
+    <!-- WindSpeed formats -->
     <!-- Wind in mph [CHAR LIMIT=25] -->
     <string name="format_wind_mph">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
     <!-- Wind in kph [CHAR LIMIT=25] -->
@@ -65,5 +78,8 @@
     <string name="content_authority">com.android.liujian.sunshine</string>
     <string name="sync_account_type">sunshine.liujian.android</string>
 
+    <!-- Notification forecast-->
+<!--    <string name="notification_forecast_format">Forecast: <xliff:g id="forecast">%1$s</xliff:g> High: <xliff:g id="high">%2$1.0f</xliff:g>\u00B0 Low: <xliff:g id="low">%2$1.0f</xliff:g>\u00B0</string>-->
+    <string name="notification_forecast_format">Forecast: <xliff:g id="condition">%1$s</xliff:g> High: <xliff:g id="high">%2$s</xliff:g> Low: <xliff:g id="low">%3$s</xliff:g></string>
 
 </resources>
