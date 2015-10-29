@@ -14,8 +14,8 @@
     <!-- Key name for storing location in sharePreferences -->
     <string name="pref_location_key" translatable="false">location</string>
 
-    <!-- Default postal code for location preference  1795565-->
-    <string name="pref_location_default" translatable="false">524901</string>
+    <!-- Default postal code for location preference  -->
+    <string name="pref_location_default" translatable="false">Shenzhen</string>
 
     <!-- Key name for storing temperature units in sharedPreferences-->
     <string name="pref_units_key" translatable="false">units</string>
@@ -60,6 +60,9 @@
 
     <!-- Humidity format CHAR LIMIT=25]-->
     <string name="format_humidity">Humidity: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+
+    <!-- Setting label-->
+    <string name="setting_title">Setting</string>
 
 
     <!-- Provider -->

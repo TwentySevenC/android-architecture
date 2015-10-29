@@ -205,7 +205,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter{
             locationId = ContentUris.parseId(uri);
         }
 
-        if(cursor != null ) cursor.close();
+        cursor.close();
         return locationId;
     }
 
@@ -351,6 +351,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter{
             SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(context);
             String lastNotifyKey = context.getString(R.string.pref_notification_last_notify);
             long lastNotifyTime = sPref.getLong(lastNotifyKey, 0);
+
+            if(cursor == null) return ;
 
             if(System.currentTimeMillis() - lastNotifyTime >= DAY_MILLIS){
 

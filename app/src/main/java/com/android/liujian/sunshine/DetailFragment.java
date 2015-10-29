@@ -11,7 +11,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -85,7 +84,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     /**
      * A callback method
-     * If the location changed, update the weather detail information
+     * If the location changed, update the weather menu_detail information
      */
     public void onLocationChanged(String newLocation){
         Uri uri = mUri;
@@ -101,7 +100,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_detail, menu);
+        inflater.inflate(R.menu.menu_fragment_detail, menu);
 
         MenuItem shareItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);

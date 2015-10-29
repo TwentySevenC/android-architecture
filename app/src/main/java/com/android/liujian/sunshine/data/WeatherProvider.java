@@ -221,7 +221,6 @@ public class WeatherProvider extends ContentProvider{
                 throw new UnsupportedOperationException("Unsupported operation.." + uri.toString());
         }
         getContext().getContentResolver().notifyChange(uri, null);
-        database.close();
         return rtnUri;
     }
 
@@ -255,7 +254,6 @@ public class WeatherProvider extends ContentProvider{
                 throw new UnsupportedOperationException("Unsupported operation.." + uri.toString());
         }
 
-        database.close();
         if(rows != 0){
             getContext().getContentResolver().notifyChange(uri, null);
         }
@@ -276,8 +274,6 @@ public class WeatherProvider extends ContentProvider{
             default:
                 throw new UnsupportedOperationException("Unsupported operation.." + uri.toString());
         }
-
-        database.close();
 
         if(rows != 0){
             getContext().getContentResolver().notifyChange(uri, null);

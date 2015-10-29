@@ -1,5 +1,6 @@
 package com.android.liujian.sunshine;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -132,7 +134,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(FORECAST_LIST_POSITION, mPosition);
+        if(mPosition != ListView.INVALID_POSITION){
+            outState.putInt(FORECAST_LIST_POSITION, mPosition);
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -150,7 +154,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_forecast_refresh, menu);
+        inflater.inflate(R.menu.menu_fragment_main, menu);
     }
 
     @Override
@@ -158,8 +162,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         int id = item.getItemId();
 
-        if(id == R.id.forecast_refresh){
+        /*if(id == R.id.action_refresh){
             updateWeather();
+            return true;
+        }else */if(id == R.id.action_map){
+            openPreferredLocationInMap();
             return true;
         }
 
@@ -179,6 +186,30 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pi);*/
 
         SunshineSyncAdapter.syncImmediately(getContext());
+
+    }
+
+
+    public void openPreferredLocationInMap(){
+
+        if(mWeatherListAdapter != null){
+            Cursor cursor = mWeatherListAdapter.getCursor();
+            if(cursor != null){
+                cursor.moveToPosition(0);
+                String lat = cursor.getString(COL_LOCATION_COORD_LAT);
+                String lon = cursor.getString(COL_LOCATION_COORD_LONG);
+                Uri geoLocation = Uri.parse("geo:" + lat + "," + lon);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geoLocation);
+
+                if(intent.resolveActivity(getContext().getPackageManager()) != null){
+                    startActivity(intent);
+                }else{
+                    Log.d(LOG_TAG, "Couldn't locate " + ", don't install map app.");
+                }
+            }
+        }
 
     }
 

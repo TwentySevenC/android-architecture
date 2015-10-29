@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         }*/
 
         if(findViewById(R.id.weather_detail_container) != null){
-            /** The screen's small width is bigger than 600dp, so the main layout is master-detail pattern*/
+            /** The screen's small width is bigger than 600dp, so the main layout is master-menu_detail pattern*/
             mTwoPane = true;
 
             if(savedInstanceState == null){
@@ -102,33 +102,11 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingActivity.class));
             return true;
-        }else if(id == R.id.action_map){
-            openPreferredLocationInMap();
-            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
 
-    public void openPreferredLocationInMap(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String location = sharedPreferences.getString(getString(R.string.pref_location_key),
-                getString(R.string.pref_location_default));
-
-        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
-                .appendQueryParameter("q", location)
-                .build();
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(geoLocation);
-
-        if(intent.resolveActivity(getPackageManager()) != null){
-            startActivity(intent);
-        }else{
-            Log.d(LOG_TAG, "Couldn't call location " + location + ", not app..");
-        }
-    }
 
     @Override
     public void onItemSelected(Uri weatherUri) {
