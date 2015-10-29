@@ -44,7 +44,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
             WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
             WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
             WeatherContract.LocationEntry.COLUMN_COORD_LAT,
-            WeatherContract.LocationEntry.COLUMN_COORD_LONG
+            WeatherContract.LocationEntry.COLUMN_COORD_LONG,
+            WeatherContract.LocationEntry.COLUMN_CITY_NAME,
+            WeatherContract.LocationEntry.COLUMN_COUNTRY_NAME
     };
 
     /** These indices are tied to FORECAST_COLUMNS, if FORECAST_COLUMNS changes , those must changes too */
@@ -57,6 +59,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     public static final int COL_WEATHER_CONDITION_ID = 6;
     public static final int COL_LOCATION_COORD_LAT = 7;
     public static final int COL_LOCATION_COORD_LONG = 8;
+    public static final int COL_LOCATION_CITY = 9;
+    public static final int COL_LOCATION_COUNTRY = 10;
+
 
     public ForecastFragment(){
 

@@ -47,6 +47,8 @@ public class WeatherContract {
 
         public static final String COLUMN_CITY_NAME = "location_name";
 
+        public static final String COLUMN_COUNTRY_NAME = "country";
+
         /** Column representing location's latitude */
         public static final String COLUMN_COORD_LAT = "coord_lat";
 

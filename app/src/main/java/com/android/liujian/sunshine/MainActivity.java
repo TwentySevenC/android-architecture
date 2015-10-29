@@ -2,26 +2,32 @@ package com.android.liujian.sunshine;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.liujian.sunshine.sync.SunshineSyncAdapter;
 import com.android.liujian.sunshine.utils.Utility;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 
-public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
+public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     public static final String DETAIL_FRAGMENT_TAG = "df_tag";
 
     private boolean mTwoPane;
     private String mLocation;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +62,47 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
         ff.setUseTodayLayout(!mTwoPane);
 
+        if(Utility.getPreferenceGpsLocation(this)){
+            buildGoogleApiClient();
+        }
+
+
         SunshineSyncAdapter.initializeSyncAdapter(this);
 
     }
 
+    /**
+     * Builds a GoogleApiClient. Uses the addApi() method to request the LocationServices API.
+     */
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(mGoogleApiClient != null && Utility.getPreferenceGpsLocation(this)){
+            mGoogleApiClient.connect();
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+
+    }
 
     @Override
     protected void onResume() {
@@ -128,5 +171,29 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
             startActivity(intent);
 
         }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Location location = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if(location != null){
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+            pref.edit().putString(getString(R.string.pref_last_location_lat), String.valueOf(location.getLatitude()))
+                        .putString(getString(R.string.pref_last_location_lon), String.valueOf(location.getLongitude()))
+                        .apply();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        if(mGoogleApiClient != null && Utility.getPreferenceGpsLocation(this)){
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }

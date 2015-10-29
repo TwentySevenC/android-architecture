@@ -2,7 +2,9 @@
   <dictionary name="liujian">
     <words>
       <w>appid</w>
+      <w>coods</w>
       <w>coord</w>
+      <w>coords</w>
       <w>shenzhen</w>
       <w>textview</w>
     </words>

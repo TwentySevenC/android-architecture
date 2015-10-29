@@ -35,6 +35,15 @@ public class Utility {
     }
 
 
+    public static boolean getPreferenceGpsLocation(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        return sharedPreferences.getBoolean(context.getString(R.string.pref_gps_location_key),
+                Boolean.valueOf(context.getString(R.string.pref_gps_location_default)));
+    }
+
+
+
     public static boolean isMetric(Context context){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 

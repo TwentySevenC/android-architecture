@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.textservice.TextInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,6 +62,9 @@ public class ForecastAdapter extends CursorAdapter {
         View view = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
+        if(type == VIEW_TYPE_TODAY){
+            viewHolder.location = (TextView)view.findViewById(R.id.list_item_location_textview);
+        }
 
         view.setTag(viewHolder);
 
@@ -78,6 +82,9 @@ public class ForecastAdapter extends CursorAdapter {
         switch (viewType){
             case VIEW_TYPE_TODAY:
                 viewHolder.iconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
+                String city = cursor.getString(ForecastFragment.COL_LOCATION_CITY);
+                String country = cursor.getString(ForecastFragment.COL_LOCATION_COUNTRY);
+                viewHolder.location.setText(city + ", " + country);
                 break;
             case VIEW_TYPE_FUTURE:
                 viewHolder.iconView.setImageResource(Utility.getIconResourceForWeatherCondition(weatherId));
@@ -113,6 +120,7 @@ public class ForecastAdapter extends CursorAdapter {
         public final TextView forecastView ;
         public final TextView highTempView ;
         public final TextView lowTempView;
+        public TextView location = null;
 
         public ViewHolder(View view){
             iconView = (ImageView)view.findViewById(R.id.list_item_icon);

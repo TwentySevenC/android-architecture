@@ -25,4 +25,11 @@
         android:summaryOff="@string/pref_notification_off"
         android:summaryOn="@string/pref_notification_on"/>
 
+    <CheckBoxPreference
+        android:title="@string/pref_gps_location_label"
+        android:key="@string/pref_gps_location_key"
+        android:summaryOff="@string/pref_gps_location_disable"
+        android:summaryOn="@string/pref_gps_location_enable"/>
+
+
 </PreferenceScreen>
