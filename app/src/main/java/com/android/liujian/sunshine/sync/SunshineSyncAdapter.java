@@ -385,7 +385,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter{
     public void notifyWeatherForecast(){
         boolean isNotifyWeather = Utility.getPreferenceNotification(mContext);
         if(isNotifyWeather){
-            Uri uri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(Utility.getPreferenceLocation(getContext()), System.currentTimeMillis());
+            Uri uri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(Utility.getPreferenceLocation(mContext), System.currentTimeMillis());
             Cursor cursor = mContentResolver.query(uri, NOTIFY_WEATHER_PROJECTION, null, null, null);
 
             SharedPreferences sPref = PreferenceManager.getDefaultSharedPreferences(mContext);

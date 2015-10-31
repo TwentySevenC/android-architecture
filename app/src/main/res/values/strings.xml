@@ -9,7 +9,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Label for the location preference -->
-    <string name="pref_location_label">Location</string>
+    <string name="pref_location_label">Map</string>
 
     <!-- Key name for storing location in sharePreferences -->
     <string name="pref_location_key" translatable="false">location</string>
