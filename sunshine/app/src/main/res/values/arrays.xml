@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Temperature Units entry value-->
+    <array name="pref_units_entry_value">
+        <item >metric</item>
+        <item >imperial</item>
+    </array>
+
+    <!-- Temperature Units entries-->
+    <array name="pref_units_entries">
+        <item >Metric</item>
+        <item >Imperial</item>
+    </array>
+
+</resources>

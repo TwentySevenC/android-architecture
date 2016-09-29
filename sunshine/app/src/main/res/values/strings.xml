@@ -1,0 +1,102 @@
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+    <string name="app_name">Sunshine</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+
+
+    <string name="forecast_refresh" >Refresh</string>
+    <string name="title_activity_details">Details</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Label for the location preference -->
+    <string name="pref_location_label">Map</string>
+
+    <!-- Key name for storing location in sharePreferences -->
+    <string name="pref_location_key" translatable="false">location</string>
+
+    <!-- Default postal code for location preference  -->
+    <string name="pref_location_default" translatable="false">Shenzhen</string>
+
+    <!-- Key name for storing temperature units in sharedPreferences-->
+    <string name="pref_units_key" translatable="false">units</string>
+
+    <!-- Default value for temperature value-->
+    <string name="pref_units_metric" translatable="false">metric</string>
+
+    <string name="pref_units_imperial" translatable="false">imperial</string>
+
+    <!-- Label for the units preferences-->
+    <string name="pref_units_label">Temperature Units</string>
+
+    <!-- Label for notification preferences -->
+    <string name="pref_notification_label">Notification</string>
+    <!-- Key name for storing notification flag -->
+    <string name="pref_notification_key">notification</string>
+    <string name="pref_notification_default">true</string>
+
+    <!-- Notification checkbox preferences state -->
+    <string name="pref_notification_on">On</string>
+    <string name="pref_notification_off">Off</string>
+
+    <!-- Last notify weather data time key-->
+    <string name="pref_notification_last_notify">last_notify</string>
+
+    <!-- GPS locate -->
+    <string name="pref_gps_location_label">GPS Location</string>
+    <string name="pref_gps_location_key">gps</string>
+    <string name="pref_gps_location_enable">Enable</string>
+    <string name="pref_gps_location_disable">Disable</string>
+    <string name="pref_gps_location_default">false</string>
+
+    <!-- Last location -->
+    <string name="pref_last_location_lat">latitude</string>
+    <string name="pref_last_location_lon">longitude</string>
+
+    <string name="pref_last_location_lon_default">114.068298</string>
+    <string name="pref_last_location_lat_default">22.54554</string>
+
+
+    <!-- Date format [CHAR LIMIT=NONE] -->
+    <string name="format_full_friendly_date"><xliff:g id="month">%1$s</xliff:g>, <xliff:g id="day">%2$s</xliff:g></string>
+
+    <!-- Strings for formatting weather-related data -->
+    <!-- Temperature format [CHAR LIMIT=5 -->
+    <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
+
+    <!-- WindSpeed formats -->
+    <!-- Wind in mph [CHAR LIMIT=25] -->
+    <string name="format_wind_mph">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> mph <xliff:g id="direction">%2$s</xliff:g></string>
+    <!-- Wind in kph [CHAR LIMIT=25] -->
+    <string name="format_wind_kmh">Wind: <xliff:g id="speed">%1$1.0f</xliff:g> km/h <xliff:g id="direction">%2$s</xliff:g></string>
+
+    <!-- Pressure format CHAR LIMIT=25] -->
+    <string name="format_pressure">Pressure: <xliff:g id="pressure">%1.0f</xliff:g> hPa</string>
+
+    <!-- Humidity format CHAR LIMIT=25]-->
+    <string name="format_humidity">Humidity: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
+
+    <!-- Setting label-->
+    <string name="setting_title">Setting</string>
+
+
+    <!-- Provider -->
+    <string name="authorities">com.android.liujian.sunshine</string>
+    <string name="provider_label">weather content</string>
+
+
+    <!-- Language-specific constants -->
+    <string name="today">Today</string>
+
+    <!-- For labelling tomorrow's forecast [CHAR LIMIT=15] -->
+    <string name="tomorrow">Tomorrow</string>
+
+
+    <!-- Authenticator params -->
+    <string name="content_authority">com.android.liujian.sunshine</string>
+    <string name="sync_account_type">sunshine.liujian.android</string>
+
+    <!-- Notification forecast-->
+<!--    <string name="notification_forecast_format">Forecast: <xliff:g id="forecast">%1$s</xliff:g> High: <xliff:g id="high">%2$1.0f</xliff:g>\u00B0 Low: <xliff:g id="low">%2$1.0f</xliff:g>\u00B0</string>-->
+    <string name="notification_forecast_format">Forecast: <xliff:g id="condition">%1$s</xliff:g> High: <xliff:g id="high">%2$s</xliff:g> Low: <xliff:g id="low">%3$s</xliff:g></string>
+
+</resources>
